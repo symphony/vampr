@@ -48,12 +48,12 @@ class Vampire {
     if (this.creator === null) return this;
     if (this.creator.creator === null) return this.creator;
     if (this.name === vampire.name) return this;
+    if (vampire.isMoreSeniorThan(this)) return vampire;
 
     let currentVampire = this;
     while (!currentVampire.isMoreSeniorThan(vampire)) {
       currentVampire = currentVampire.creator;
     }
-    console.log("found", currentVampire.name);
     return currentVampire;
   }
 }
