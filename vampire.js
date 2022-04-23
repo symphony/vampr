@@ -59,7 +59,7 @@ class Vampire {
     return currentVampire;
   }
 
-  /** Tree traversal methods **/
+
   // helpers
   getRootVampire() {
     let rootVampire = this;
@@ -69,14 +69,15 @@ class Vampire {
     return rootVampire;
   }
 
-  findOffspring(name) {
-    if (this.name === name) return this;
-    return this.offspring.find(child => child.name === name || child.findOffspring(name))?.findOffspring(name) || null;
+  flattenOffspring(vampire) { // lol?
+    return [vampire].concat(vampire.offspring.reduce((total, child) => total.concat(child.offspring.length > 0 ? this.flattenOffspring(child) : child), []));
   }
 
+  /** Tree traversal methods **/
   // Returns the vampire object with that name, or null if no vampire exists with that name
   vampireWithName(name) {
-    return this.findOffspring(name);
+    if (this.name === name) return this;
+    return this.offspring.find(child => child.name === name || child.vampireWithName(name))?.vampireWithName(name) || null;
   }
 
   // Returns the total number of vampires that exist
@@ -86,7 +87,8 @@ class Vampire {
 
   // Returns an array of all the vampires that were converted after 1980
   get allMillennialVampires() {
-
+    const rootVampire = this.getRootVampire();
+    return this.flattenOffspring(rootVampire).filter(vampire => vampire.yearConverted >= 1980);
   }
 }
 
