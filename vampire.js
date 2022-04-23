@@ -69,6 +69,7 @@ class Vampire {
     return rootVampire;
   }
 
+  // recursively flattens offspring and self to a single array
   flattenOffspring(vampire) { // lol?
     return [vampire].concat(vampire.offspring.reduce((total, child) => total.concat(child.offspring.length > 0 ? this.flattenOffspring(child) : child), []));
   }
@@ -76,8 +77,7 @@ class Vampire {
   /** Tree traversal methods **/
   // Returns the vampire object with that name, or null if no vampire exists with that name
   vampireWithName(name) {
-    if (this.name === name) return this;
-    return this.offspring.find(child => child.name === name || child.vampireWithName(name))?.vampireWithName(name) || null;
+    return this.flattenOffspring(this).find(child => child.name === name) || null
   }
 
   // Returns the total number of vampires that exist
