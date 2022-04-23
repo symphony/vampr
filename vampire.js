@@ -34,24 +34,9 @@ class Vampire {
 
   // Returns true if this vampire is more senior than the other vampire. (Who is closer to the original vampire)
   isMoreSeniorThan(vampire) {
+    if (this.creator === null) return true;
+    if (vampire.creator === null) return false;
     return this.offspring.some(child => child.name === vampire.name || child.isMoreSeniorThan(vampire));
-  }
-
-  /** Tree traversal methods **/
-
-  // Returns the vampire object with that name, or null if no vampire exists with that name
-  vampireWithName(name) {
-    
-  }
-
-  // Returns the total number of vampires that exist
-  get totalDescendents() {
-    
-  }
-
-  // Returns an array of all the vampires that were converted after 1980
-  get allMillennialVampires() {
-    
   }
 
   /** Stretch **/
@@ -74,21 +59,31 @@ class Vampire {
     return currentVampire;
   }
 
-  // Traversal methods
-    // Returns the vampire object with that name, or null if no vampire exists with that name
-    vampireWithName(name) {
+  // helpers
+  findOffspring(name) {
+    if (this.name === name) return this;
+    return this.offspring.find(child => child.name === name || child.findOffspring(name))?.findOffspring(name) || null;
+  }
 
+  /** Tree traversal methods **/
+  // Returns the vampire object with that name, or null if no vampire exists with that name
+  vampireWithName(name) {
+    let rootVampire = this;
+    while (rootVampire.creator) {
+      rootVampire = rootVampire.creator;
     }
+    return this.findOffspring(name);
+  }
 
-    // Returns the total number of vampires that exist
-    get totalDescendents() {
+  // Returns the total number of vampires that exist
+  get totalDescendents() {
 
-    }
+  }
 
-    // Returns an array of all the vampires that were converted after 1980
-    get allMillennialVampires() {
+  // Returns an array of all the vampires that were converted after 1980
+  get allMillennialVampires() {
 
-    }
+  }
 }
 
 module.exports = Vampire;
