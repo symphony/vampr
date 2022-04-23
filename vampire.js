@@ -34,8 +34,7 @@ class Vampire {
 
   // Returns true if this vampire is more senior than the other vampire. (Who is closer to the original vampire)
   isMoreSeniorThan(vampire) {
-    if (vampire.creator === null) return false;
-    return this.offspring.some(child => child.name === vampire.name || this.isMoreSeniorThan(child));
+    return this.offspring.some(child => child.name === vampire.name || child.isMoreSeniorThan(vampire));
   }
 
   /** Stretch **/
@@ -49,6 +48,13 @@ class Vampire {
     if (this.creator === null) return this;
     if (this.creator.creator === null) return this.creator;
     if (this.name === vampire.name) return this;
+
+    let currentVampire = this;
+    while (!currentVampire.isMoreSeniorThan(vampire)) {
+      currentVampire = currentVampire.creator;
+    }
+    console.log("found", currentVampire.name);
+    return currentVampire;
   }
 }
 
