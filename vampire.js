@@ -59,19 +59,23 @@ class Vampire {
     return currentVampire;
   }
 
-  // helpers
-  findOffspring(name) {
-    if (this.name === name) return this;
-    return this.offspring.find(child => child.name === name || child.findOffspring(name))?.findOffspring(name) || null;
-  }
-
   /** Tree traversal methods **/
-  // Returns the vampire object with that name, or null if no vampire exists with that name
-  vampireWithName(name) {
+  // helpers
+  getRootVampire = () => {
     let rootVampire = this;
     while (rootVampire.creator) {
       rootVampire = rootVampire.creator;
     }
+    return rootVampire;
+  }
+
+  findOffspring = (name) => {
+    if (this.name === name) return this;
+    return this.offspring.find(child => child.name === name || child.findOffspring(name))?.findOffspring(name) || null;
+  }
+
+  // Returns the vampire object with that name, or null if no vampire exists with that name
+  vampireWithName(name) {
     return this.findOffspring(name);
   }
 
