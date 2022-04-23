@@ -61,7 +61,7 @@ class Vampire {
 
   /** Tree traversal methods **/
   // helpers
-  getRootVampire = () => {
+  getRootVampire() {
     let rootVampire = this;
     while (rootVampire.creator) {
       rootVampire = rootVampire.creator;
@@ -69,7 +69,7 @@ class Vampire {
     return rootVampire;
   }
 
-  findOffspring = (name) => {
+  findOffspring(name) {
     if (this.name === name) return this;
     return this.offspring.find(child => child.name === name || child.findOffspring(name))?.findOffspring(name) || null;
   }
@@ -81,7 +81,7 @@ class Vampire {
 
   // Returns the total number of vampires that exist
   get totalDescendents() {
-
+    return this.offspring.reduce((total, child) => total + child.totalDescendents + 1, 0);
   }
 
   // Returns an array of all the vampires that were converted after 1980
