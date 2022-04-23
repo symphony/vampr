@@ -80,7 +80,7 @@ class Vampire {
     return null;
   }
 
-  // Returns the total number of vampires that exist
+  // Returns the total number of vampires that exist under it
   get totalDescendents() {
     return this.offspring.reduce((total, child) => total + child.totalDescendents + 1, 0);
   }
