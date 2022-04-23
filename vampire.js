@@ -60,6 +60,7 @@ class Vampire {
   }
 
 
+  /** Tree traversal section **/
   // helpers
   getRootVampire() {
     let rootVampire = this;
@@ -70,11 +71,11 @@ class Vampire {
   }
 
   // recursively flattens offspring and self to a single array
-  flattenOffspring(vampire) { // lol?
+  flattenOffspring(vampire) {
     return [vampire].concat(vampire.offspring.reduce((total, child) => total.concat(child.offspring.length > 0 ? this.flattenOffspring(child) : child), []));
   }
 
-  /** Tree traversal methods **/
+  // = main traversal methods =
   // Returns the vampire object with that name, or null if no vampire exists with that name
   vampireWithName(name) {
     return this.flattenOffspring(this).find(child => child.name === name) || null
