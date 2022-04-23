@@ -72,7 +72,12 @@ class Vampire {
   // = main traversal methods =
   // Returns the vampire object with that name, or null if no vampire exists with that name
   vampireWithName(name) {
-    return this.flattenOffspring(this).find(child => child.name === name) || null;
+    if (this.name === name) return this;
+    for (const child of this.offspring) {
+      const found = child.vampireWithName(name);
+      if (found) return found;
+    }
+    return null;
   }
 
   // Returns the total number of vampires that exist
